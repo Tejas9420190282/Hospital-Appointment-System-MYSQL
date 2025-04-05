@@ -8,6 +8,7 @@ const { mySqlPool } = require('./config/db');
 const cors = require('cors');
 const { admin_Doctor_Login_Router } = require('./router/Admin_Router/Admin_Doctor_Login_Router');
 const { create_Doctor_Router } = require('./router/Admin_Router/Create_Doctor_Router');
+const { admin_Show_All_Doctors_Router } = require('./router/Admin_Router/Admin_Show_All_Doctor_Router');
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true })); // For URL-encod
 
 app.use(admin_Doctor_Login_Router);
 app.use(create_Doctor_Router);
+app.use(admin_Show_All_Doctors_Router);
 
 const PORT = 1212;
 mySqlPool.query("SELECT 1").then(() => {

@@ -2,6 +2,7 @@
 // create_Doctor_Controller.js
 
 const { mySqlPool } = require("../../config/db");
+const { createSlotsForDoctor } = require("../../Tables/slote_Creation");
 
 const create_Doctor_Controller = async (req, res) => {
     try {
@@ -86,8 +87,13 @@ const create_Doctor_Controller = async (req, res) => {
                 message : "Successfully Doctor data inserted in doctor table"
             })
         }
+
+        const doctorId = doctorData.insertId;
+
+        createSlotsForDoctor(doctorId, startTime,
+            endTime);
         
-        console.log("Successfully Doctor data is inserted in doctor table".bgGreen);
+        console.log("Successfully Doctor data is inserted in doctor table and Slotes also created".bgGreen);
 
         res.status(200).json({
             
