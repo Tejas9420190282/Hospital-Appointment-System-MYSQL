@@ -9,4 +9,5 @@ const mySqlPool = mysql.createPool({
     database : "doctorappointment",
 })
 
-exports.mySqlPool = mySqlPool
+exports.mySqlPool = mySqlPool;
+

@@ -1,5 +1,5 @@
 
-// App.jsx
+// App.jsx (React)
 
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -9,6 +9,8 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import Admin_Doctor_Login from "./Pages/Admin_Doctor_Login";
 import User_Login from "./Pages/User_Login";
+import Admin_Home from "./Pages/Admin-section/Admin_Home";
+import Admin_Add_Doctor_Page from "./Pages/Admin-section/Admin_Add_Doctor_Page";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -38,6 +40,24 @@ function App() {
             path: "/user-login",
             element: <><User_Login /></>,
         },   
+
+        // Admin
+        {
+            path: "/admin-home",
+            element: <><Admin_Home /></>,
+        },
+        {
+            path: "/admin-add-doctor",
+            element: <><Admin_Add_Doctor_Page /></>,
+        },
+
+
+        // Users
+        {
+            path: "/user-home",
+            element: <></>,
+        },
+
     ]);
 
     return (
