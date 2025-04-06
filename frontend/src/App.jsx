@@ -4,7 +4,6 @@
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home_Page from "./Pages/Home_Page";
-import All_Doctors from "./Pages/All_Doctors";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import Admin_Doctor_Login from "./Pages/Admin_Doctor_Login";
@@ -20,10 +19,6 @@ function App() {
         {
             path: "/",
             element: <><Home_Page /></>,
-        },
-        {
-            path: "/all-doctors",
-            element: <><All_Doctors /></>,
         },
         {
             path: "/about",

@@ -71,7 +71,7 @@ const All_Doctors_List = () => {
                                     <div className="flex justify-center py-6 bg-gray-100">
                                         {doctor.img ? (
                                             <img 
-                                                 className="h-72 w-72 rounded-4xl object-cover border-4 border-white shadow-md" 
+                                                 className="h-72 w-72 rounded-4xl object-cover border-4 border-white shadow-md bg-sky-300" 
                                                 src={doctor.img} 
                                                 alt={doctor.name}
                                                 onError={(e) => {

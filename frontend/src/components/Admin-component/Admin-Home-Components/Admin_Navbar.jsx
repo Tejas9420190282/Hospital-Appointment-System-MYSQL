@@ -22,7 +22,7 @@ function Admin_Navbar() {
 
       {/* Logout Button */}
       <button
-        onClick={() => navigate("/logout")}
+        onClick={() => navigate("/")}
         className="bg-blue-600 hover:bg-blue-700 text-white font-medium sm:font-nano py-2 px-4 rounded-full transition-all shadow hover:shadow-lg"
       >
         Logout
