@@ -1,4 +1,5 @@
 
+// patientTable.js (Node)
 
 const { mySqlPool } = require("../config/db");
 

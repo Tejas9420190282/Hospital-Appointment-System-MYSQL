@@ -9,6 +9,12 @@ const cors = require('cors');
 const { admin_Doctor_Login_Router } = require('./router/Admin_Router/Admin_Doctor_Login_Router');
 const { create_Doctor_Router } = require('./router/Admin_Router/Create_Doctor_Router');
 const { admin_Show_All_Doctors_Router } = require('./router/Admin_Router/Admin_Show_All_Doctor_Router');
+const { get_Doctor_By_Id_Router } = require('./router/get_Doctor_By_Id_Router');
+const { create_Account_User_Router } = require('./router/User/Create_Account_User_Router');
+const { login_User_Router } = require('./router/User/Login_User_Router');
+const { create_Patient_Data_Router } = require('./router/User/Create_Patient_Data_Router');
+const { Insert_Slote_Router } = require('./router/User/Insert_Slote_Router');
+const { payment_Router } = require('./router/User/Payment_Router');
 
 
 const app = express();
@@ -21,6 +27,15 @@ app.use(express.urlencoded({ limit: '50mb', extended: true })); // For URL-encod
 app.use(admin_Doctor_Login_Router);
 app.use(create_Doctor_Router);
 app.use(admin_Show_All_Doctors_Router);
+app.use(get_Doctor_By_Id_Router);
+
+
+// User
+app.use(create_Account_User_Router);
+app.use(login_User_Router);
+app.use(create_Patient_Data_Router);
+app.use(Insert_Slote_Router);
+app.use(payment_Router)
 
 const PORT = 1212;
 mySqlPool.query("SELECT 1").then(() => {

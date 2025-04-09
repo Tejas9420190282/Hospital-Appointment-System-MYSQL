@@ -1,8 +1,8 @@
 
-// All_Doctors_On_Home.jsx
-
+// All_Doctors_On_Home.jsx (React)
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function All_Doctors_On_Home() {
     const [doctors, setDoctors] = useState([]);
@@ -10,7 +10,7 @@ function All_Doctors_On_Home() {
     const [error, setError] = useState(null);
     const [showAll, setShowAll] = useState(false);
     const [doctorTypes, setDoctorTypes] = useState([]);
-    const [selectedType, setSelectedType] = useState("all"); // 'all' will show all doctors
+    const [selectedType, setSelectedType] = useState("all");
 
     useEffect(() => {
         const fetchDoctors = async () => {
@@ -19,10 +19,7 @@ function All_Doctors_On_Home() {
                     `${import.meta.env.VITE_BACKEND_URL}/show-all-doctors-list`
                 );
 
-                if (
-                    response.data?.success &&
-                    Array.isArray(response.data.doctors)
-                ) {
+                if (response.data?.success && Array.isArray(response.data.doctors)) {
                     setDoctors(response.data.doctors);
                     
                     // Extract unique doctor types
@@ -87,7 +84,7 @@ function All_Doctors_On_Home() {
                                 value={selectedType}
                                 onChange={(e) => {
                                     setSelectedType(e.target.value);
-                                    setShowAll(false); // Reset showAll when changing filter
+                                    setShowAll(false);
                                 }}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                             >
@@ -109,9 +106,10 @@ function All_Doctors_On_Home() {
                         <div className="flex flex-col items-center">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
                                 {displayedDoctors.map((doctor) => (
-                                    <div
+                                    <Link
+                                        to={`/doctor/${doctor.id}`}
                                         key={doctor.id}
-                                        className="bg-white shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                                        className="bg-white shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 rounded-lg cursor-pointer"
                                     >
                                         {/* Large Profile Image Section */}
                                         <div className="flex justify-center py-6 bg-gray-100">
@@ -220,10 +218,11 @@ function All_Doctors_On_Home() {
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
-                            {/* "See More" button remains centered automatically */}
+                            
+                            {/* "See More" button */}
                             {filteredDoctors.length > 8 && (
                                 <div className="flex justify-center mt-8">
                                     <button
@@ -243,3 +242,4 @@ function All_Doctors_On_Home() {
 }
 
 export default All_Doctors_On_Home;
+

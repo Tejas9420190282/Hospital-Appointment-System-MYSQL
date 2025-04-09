@@ -10,6 +10,7 @@ const Create_Appointment_Table = async () => {
                 slote_id INT NOT NULL,
                 doctor_id INT NOT NULL,
                 patient_id INT NOT NULL,
+                payment VARCHAR(50) DEFAULT 'Success',
                 FOREIGN KEY (slote_id) REFERENCES slote(id) ON DELETE CASCADE,
                 FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE CASCADE,
                 FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE
