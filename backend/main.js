@@ -15,6 +15,7 @@ const { login_User_Router } = require('./router/User/Login_User_Router');
 const { create_Patient_Data_Router } = require('./router/User/Create_Patient_Data_Router');
 const { Insert_Slote_Router } = require('./router/User/Insert_Slote_Router');
 const { payment_Router } = require('./router/User/Payment_Router');
+const { doctor_View_All_Appointment_Router } = require('./router/Doctor_Router/doctor_View_All_Appointment_Router');
 
 
 const app = express();
@@ -36,6 +37,9 @@ app.use(login_User_Router);
 app.use(create_Patient_Data_Router);
 app.use(Insert_Slote_Router);
 app.use(payment_Router)
+
+// Doctor
+app.use(doctor_View_All_Appointment_Router);
 
 const PORT = 1212;
 mySqlPool.query("SELECT 1").then(() => {

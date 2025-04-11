@@ -50,7 +50,7 @@ function Doctor_Detail_Page() {
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                     Error: {error}
                 </div>
-                <Link to="/" className="mt-4 text-blue-600 hover:underline">
+                <Link to="/doctor-home" className="mt-4 text-blue-600 hover:underline">
                     Back to Home
                 </Link>
             </div>

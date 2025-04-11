@@ -1,84 +1,16 @@
 
 // Payment.jsx (React)
-/* 
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-
-function Payment() {
-    const { id, patientId, selectedSlot } = useParams();
-    const [doctorFees, setDoctorFees] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    const [message, setMessage] = useState();
-
-    useEffect(() => {
-        // Get fees from sessionStorage when component mounts
-        const fees = sessionStorage.getItem("fees");
-        if (fees) {
-            setDoctorFees(fees);
-        }
-
-        const date = sessionStorage.getItem("date");
-        if (date) {
-            setSelectedDate(date);
-        }
-
-    }, []);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/payment`,
-                { id, patientId, selectedSlot, selectedDate  }
-            );
-
-
-
-            // Handle payment response
-        } catch (error) {
-            console.error("Payment error:", error);
-        }
-    };
-
-    return (
-        <div className="max-w-md mx-auto p-4">
-            <h2 className="text-2xl font-bold mb-4">Payment</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block mb-2">Doctor Fees</label>
-                    <input
-                        type="number"
-                        value={doctorFees || ""}
-                        className="w-full p-2 border rounded bg-gray-100"
-                        readOnly
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-                >
-                    Pay Now
-                </button>
-            </form>
-        </div>
-    );
-}
-
-export default Payment;
- */
-
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Payment() {
     const { id, patientId, selectedSlot } = useParams();
     const [doctorFees, setDoctorFees] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
     const [message, setMessage] = useState("");
+
+    const nevigate = useNavigate();
 
     useEffect(() => {
         const fees = sessionStorage.getItem("fees");
@@ -98,20 +30,59 @@ function Payment() {
         });
     };
 
+    const handlePaymentSuccess = async (response) => {
+        try {
+            const verification = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/payment`,
+                {
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    doctorId: id,
+                    patientId,
+                    slotId: selectedSlot,
+                    date: selectedDate,
+                    amount: doctorFees * 100
+                },
+                { responseType: 'blob' } // Important for PDF download
+
+
+            );
+
+            // Create download link for PDF
+            const url = window.URL.createObjectURL(new Blob([verification.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `appointment_${response.razorpay_payment_id}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            setMessage("Payment successful! Appointment booked and PDF downloaded.");
+
+            setTimeout(() => {
+                
+                nevigate("/user/user-home"); 
+            }, 5000);
+
+        } catch (error) {
+            console.error("Verification error:", error);
+            setMessage("Payment successful but error downloading receipt");
+        }
+    };
+
     const handlePayment = async () => {
         try {
-            // 1. Load Razorpay script
             const isScriptLoaded = await loadRazorpayScript();
             if (!isScriptLoaded) {
                 setMessage("Razorpay SDK failed to load");
                 return;
             }
 
-            // 2. Create order and process payment
             const orderResponse = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/create-razorpay-order`,
                 {
-                    amount: doctorFees * 100, // Convert to paise
+                    amount: doctorFees * 100,
                     doctorId: id,
                     patientId,
                     slotId: selectedSlot,
@@ -124,51 +95,27 @@ function Payment() {
                 return;
             }
 
-            // 3. Razorpay checkout options
             const options = {
-                key: "rzp_test_6Pg8m8ifI60Xmi", // Your Razorpay key_id
+                key: "rzp_test_6Pg8m8ifI60Xmi",
                 amount: orderResponse.data.order.amount,
                 currency: "INR",
                 name: "Your Clinic Name",
                 description: "Appointment Booking",
                 order_id: orderResponse.data.order.id,
-                handler: async function(response) {
-                    // 4. Verify payment and create appointment
-                    try {
-                        const verification = await axios.post(
-                            `${import.meta.env.VITE_BACKEND_URL}/payment`,
-                            {
-                                razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_order_id: response.razorpay_order_id,
-                                razorpay_signature: response.razorpay_signature,
-                                doctorId: id,
-                                patientId,
-                                slotId: selectedSlot,
-                                date: selectedDate
-                            }
-                        );
-
-                        if (verification.data.success) {
-                            setMessage("Payment successful! Appointment booked.");
-                        } else {
-                            setMessage("Payment verification failed");
-                        }
-                    } catch (error) {
-                        console.error("Verification error:", error);
-                        setMessage("Error verifying payment");
-                    }
-                },
+                handler: handlePaymentSuccess, // Updated handler
                 prefill: {
-                    name: "Patient Name",
-                    email: "patient@example.com",
-                    contact: "9999999999"
+                    name: sessionStorage.getItem("patientName") || "Patient",
+                    email: sessionStorage.getItem("patientEmail") || "patient@example.com",
+                    contact: sessionStorage.getItem("patientPhone") || "9999999999"
                 },
                 theme: {
                     color: "#3399cc"
+                },
+                notes: {
+                    appointmentDetails: `Appointment with Dr. ${id} on ${selectedDate}`
                 }
             };
 
-            // 5. Open Razorpay checkout
             const rzp = new window.Razorpay(options);
             rzp.open();
 
@@ -180,32 +127,31 @@ function Payment() {
 
     return (
         <div className="max-w-md mx-auto p-4">
-            <h2 className="text-2xl font-bold mb-4">Payment</h2>
+            <h2 className="text-2xl font-bold mb-4">Complete Payment</h2>
             
-            <div className="mb-6 space-y-4">
-                <div>
-                    <label className="block mb-2">Doctor Fees</label>
-                    <input
-                        type="number"
-                        value={doctorFees || ""}
-                        className="w-full p-2 border rounded bg-gray-100"
-                        readOnly
-                    />
+            <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="mb-6">
+                    <h3 className="text-lg font-semibold mb-2">Appointment Summary</h3>
+                    <div className="space-y-2">
+                        <p>Doctor Fee: ₹{doctorFees}</p>
+                        <p>Date: {selectedDate}</p>
+                        <p>Slot ID: {selectedSlot}</p>
+                    </div>
                 </div>
-                
+
                 <button
                     onClick={handlePayment}
-                    className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700"
+                    className="w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 transition-colors"
                 >
-                    Pay ₹{doctorFees}
+                    Pay Now
                 </button>
-                
+
                 {message && (
-                    <p className={`text-center ${
-                        message.includes("success") ? "text-green-600" : "text-red-600"
+                    <div className={`mt-4 p-3 rounded-md ${
+                        message.includes("success") ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
                     }`}>
                         {message}
-                    </p>
+                    </div>
                 )}
             </div>
         </div>
@@ -213,5 +159,4 @@ function Payment() {
 }
 
 export default Payment;
-
 

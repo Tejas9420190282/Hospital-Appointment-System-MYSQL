@@ -16,6 +16,8 @@ import User_Scedule_Appointment from "./Pages/User-section/User_Scedule_Appointm
 import Slote_Selection from "./Pages/User-section/Slote_Selection";
 import Payment from "./Pages/User-section/Payment";
 import All_Doctors_On_Home from "./components/Admin-component/Admin-Home-Components/All_Doctors_On_Home";
+import Doctor_Home from "./Pages/Doctor-Section/Doctor_Home";
+import Doctor_View_All_Appointment from "./Pages/Doctor-Section/Doctor_View_All_Appointment";
 
 
 function App() {
@@ -53,8 +55,7 @@ function App() {
                     <Admin_Doctor_Login />
                 </>
             ),
-        },
-        
+        },     
         {
             path: "/doctor/:id",
             element: (
@@ -133,19 +134,31 @@ function App() {
                 </>
             ),
         },
-  /*    {
-            path: "/user/view-scedule-appointments",
-            element: (
-                <>
-                    <User_Scedule_Appointment />
-                </>
-            ),
-        }, */
         {
             path: "/user/schedule-appointment",
             element: (
                 <>
                     <All_Doctors_On_Home />
+                </>
+            ),
+        },
+
+
+        // Doctor Pannel
+
+        {
+            path: "/doctor-home",
+            element: (
+                <>
+                    <Doctor_Home />
+                </>
+            ),
+        },
+        {
+            path: "/doctor/view-all-appointments",
+            element: (
+                <>
+                    <Doctor_View_All_Appointment />
                 </>
             ),
         },

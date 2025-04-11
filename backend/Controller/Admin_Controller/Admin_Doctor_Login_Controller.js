@@ -11,76 +11,98 @@ const admin_Doctor_Login_Controller = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            console.log(`All the inputs are Mandatory....!`.bgRed);
+            return res.status(400).json({
+                success: false,
+                message: "All fields are mandatory"
+            });
         }
 
-        console.log(req.body);
-
+        // Check admin first
         const [adminData] = await mySqlPool.query(
             "SELECT * FROM admin WHERE email=?",
             [email]
         );
 
-        const admin = adminData[0];
-
-        if (admin) {
+        if (adminData.length > 0) {
+            const admin = adminData[0];
+            
             if (password === admin.password) {
                 const token = jwt.sign(
                     {
                         email: admin.email,
                         id: admin.id,
-                        password: admin.password,
+                        role: 'admin'
                     },
                     SECRET_KEY,
                     { expiresIn: "1h" }
                 );
 
-                console.log("Successfully Login the Admin".bgGreen);
-
-                res.status(200).json({
+                return res.status(200).json({
                     success: true,
-                    message: "Successfully Login the Admin",
+                    message: "Admin login successful",
+                    token,
                     redirect: "/admin-home",
+                    user: admin,
+                    role: 'admin'
+                });
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid credentials"
                 });
             }
         }
 
+        // Check doctor if not admin
         const [doctorData] = await mySqlPool.query(
             "SELECT * FROM doctor WHERE email=?",
             [email]
         );
 
-        const doctor = doctorData[0];
-        if (doctor) {
+        if (doctorData.length > 0) {
+            const doctor = doctorData[0];
+            
             if (password === doctor.password) {
                 const token = jwt.sign(
                     {
                         email: doctor.email,
                         id: doctor.id,
-                        password: doctor.password,
+                        role: 'doctor'
                     },
                     SECRET_KEY,
                     { expiresIn: "1h" }
                 );
 
-                console.log("Successfully Login the Admin");
-
                 return res.status(200).json({
                     success: true,
-                    message: "Successfully Login the Doctor",
-                    redirect: "/user-home",
+                    message: "Doctor login successful",
+                    token,
+                    redirect: "/doctor-home",
+                    doctorName : doctor.name,
+                    doctorIMG : doctor.img,
+                    doctorID : doctor.id,
+                    user: doctor,
+                    role: 'doctor'
+                });
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid credentials"
                 });
             }
         }
-    } catch (error) {
-        console.log(
-            `Error in admin_Doctor_Login_Controller API : ${error.message}`
-                .bgRed
-        );
 
-        res.status(400).json({
+        // If no user found
+        return res.status(404).json({
             success: false,
-            message: `Error in admin_Doctor_Login_Controller API : ${error.message}`,
+            message: "User not found"
+        });
+
+    } catch (error) {
+        console.error(`Login error: ${error.message}`);
+        return res.status(500).json({
+            success: false,
+            message: "Server error during login"
         });
     }
 };

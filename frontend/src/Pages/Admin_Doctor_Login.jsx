@@ -1,6 +1,7 @@
 
 // Admin_Doctor_Login.jsx (React)
 
+import { set } from "@cloudinary/url-gen/actions/variable";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 function Admin_Doctor_Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [doctorName, setDoctorName] = useState("");
+    const [doctorIMG, setDoctorIMG] = useState("");
+    const [doctorId, setDoctorId] = useState("");
 
 
     const navigate = useNavigate();
@@ -28,10 +31,33 @@ function Admin_Doctor_Login() {
             if (responce.data.success) {
                 console.log(responce.data.redirect);
                 
-                navigate(responce.data.redirect)
+                navigate(responce.data.redirect);
+
+                if (responce.data.doctorName && responce.data.doctorIMG && responce.data.doctorID) {
+                    
+                    const nameOfDoctor = responce.data.doctorName;
+                    const imgOfDoctor = responce.data.doctorIMG;
+
+                    const idOfDoctor = responce.data.idOfDoctor;
+
+                    setDoctorIMG(imgOfDoctor);
+                    setDoctorName(imgOfDoctor);
+                    setDoctorId(idOfDoctor)
+
+                    console.log(doctorName, doctorIMG);
+
+                    sessionStorage.setItem("imgOfDoctor", imgOfDoctor);
+
+                    sessionStorage.setItem("nameOfDoctor", nameOfDoctor);
+
+                    sessionStorage.setItem("doctorId", doctorId);
+                }
             }
 
-        } catch (error) {}
+        } catch (error) {
+
+            console.log(`${error.message}`);
+        }
 
         console.log("Login submitted:", { email, password });
     };

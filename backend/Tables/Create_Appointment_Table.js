@@ -1,4 +1,6 @@
 
+// Create_Appointment_Table.js (Node)
+
 const { mySqlPool } = require("../config/db");
 
 const Create_Appointment_Table = async () => {
@@ -25,3 +27,5 @@ const Create_Appointment_Table = async () => {
 };
 
 Create_Appointment_Table();
+
+

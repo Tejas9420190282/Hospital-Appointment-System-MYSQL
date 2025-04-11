@@ -1,4 +1,3 @@
-
 // Slote_Selection.jsx (React)
 
 import axios from "axios";
@@ -6,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const Slote_Selection = () => {
-    
     const { id, patientId } = useParams();
     const navigate = useNavigate();
     const [slots, setSlots] = useState([]);
@@ -26,11 +24,11 @@ const Slote_Selection = () => {
             setError(null);
             const response = await axios.get(
                 `${import.meta.env.VITE_BACKEND_URL}/insert-slote`,
-                { 
-                    params: { 
-                        id, 
-                        date: selectedDate
-                    } 
+                {
+                    params: {
+                        id,
+                        date: selectedDate,
+                    },
                 }
             );
 
@@ -38,7 +36,7 @@ const Slote_Selection = () => {
                 setSlots(response.data.slote || []);
                 setDoctorFees(response.data.doctorFees); // Set fees from response
                 setSelectedSlot(null);
-                
+
                 // Store in sessionStorage after successful fetch
                 sessionStorage.setItem("date", selectedDate);
                 sessionStorage.setItem("fees", response.data.doctorFees);
@@ -63,25 +61,31 @@ const Slote_Selection = () => {
             alert("Please select a time slot");
             return;
         }
-        
-        navigate(`/user/doctor/${id}/schedule-appointment/patientid/${patientId}/booking-slote/sloteid/${selectedSlot}/payment`, {
-            state: {
-                patientId,
-                slotId: selectedSlot,
-                doctorId: id,
-                appointmentDate: selectedDate
+
+        navigate(
+            `/user/doctor/${id}/schedule-appointment/patientid/${patientId}/booking-slote/sloteid/${selectedSlot}/payment`,
+            {
+                state: {
+                    patientId,
+                    slotId: selectedSlot,
+                    doctorId: id,
+                    appointmentDate: selectedDate,
+                },
             }
-        });
+        );
     };
 
     return (
         <div className="max-w-md mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">Select Appointment</h2>
             <p className="mb-4">Patient ID: {patientId}</p>
-            
+
             {/* Date Selection */}
             <div className="mb-6">
-                <label htmlFor="appointmentDate" className="block mb-2 font-medium">
+                <label
+                    htmlFor="appointmentDate"
+                    className="block mb-2 font-medium"
+                >
                     Appointment Date
                 </label>
                 <input
@@ -90,7 +94,7 @@ const Slote_Selection = () => {
                     className="w-full p-2 border rounded"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    min={new Date().toISOString().split('T')[0]}
+                    min={new Date().toISOString().split("T")[0]}
                     required
                 />
             </div>
@@ -98,20 +102,25 @@ const Slote_Selection = () => {
             {/* Time Slots */}
             {selectedDate && (
                 <>
-                    <h3 className="text-xl font-semibold mb-3">Available Time Slots</h3>
+                    <h3 className="text-xl font-semibold mb-3">
+                        Available Time Slots
+                    </h3>
                     <div className="space-y-2 mb-6">
                         {slots.length > 0 ? (
                             slots.map((slot) => (
-                                <div 
+                                <div
                                     key={slot.id}
                                     className={`p-3 border rounded cursor-pointer transition-colors ${
-                                        selectedSlot === slot.id 
-                                            ? "bg-blue-500 text-white" 
+                                        selectedSlot === slot.id
+                                            ? "bg-blue-500 text-white"
                                             : slot.status === "available"
-                                                ? "hover:bg-gray-100"
-                                                : "bg-gray-200 cursor-not-allowed"
+                                            ? "hover:bg-gray-100"
+                                            : "bg-gray-200 cursor-not-allowed"
                                     }`}
-                                    onClick={() => slot.status === "available" && handleSlotSelect(slot.id)}
+                                    onClick={() =>
+                                        slot.status === "available" &&
+                                        handleSlotSelect(slot.id)
+                                    }
                                 >
                                     {slot.start_time} - {slot.end_time}
                                     {slot.status !== "available" && (
@@ -122,7 +131,9 @@ const Slote_Selection = () => {
                                 </div>
                             ))
                         ) : (
-                            <p className="text-gray-500">Select a date to see available slots</p>
+                            <p className="text-gray-500">
+                                Select a date to see available slots
+                            </p>
                         )}
                     </div>
                 </>
@@ -133,7 +144,7 @@ const Slote_Selection = () => {
                 disabled={!selectedSlot || !selectedDate}
                 className={`w-full py-2 px-4 rounded text-white ${
                     selectedSlot && selectedDate
-                        ? "bg-blue-600 hover:bg-blue-700" 
+                        ? "bg-blue-600 hover:bg-blue-700"
                         : "bg-gray-400 cursor-not-allowed"
                 }`}
             >
@@ -144,4 +155,3 @@ const Slote_Selection = () => {
 };
 
 export default Slote_Selection;
-

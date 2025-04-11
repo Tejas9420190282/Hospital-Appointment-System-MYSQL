@@ -1,5 +1,5 @@
 
-// Create_Slote_Table.js
+// Create_Slote_Table.js (Node)
 
 const { mySqlPool } = require("../config/db");
 
@@ -24,3 +24,7 @@ const Create_Slote_Table = async () => {
 };
 
 Create_Slote_Table();
+
+
+
+

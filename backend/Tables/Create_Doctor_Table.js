@@ -1,5 +1,5 @@
 
-// Create_Doctor_Table.js
+// Create_Doctor_Table.js (Node)
 
 const { mySqlPool } = require("../config/db");
 
@@ -33,4 +33,5 @@ const Create_Doctor_Table = async () => {
 };
 
 Create_Doctor_Table();
+
 

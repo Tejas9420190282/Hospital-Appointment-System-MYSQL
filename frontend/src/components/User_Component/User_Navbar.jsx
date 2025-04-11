@@ -54,6 +54,12 @@ function User_Navbar() {
             >
               View Scheduled Appointments
             </Link>
+            <Link 
+              to="/" 
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              Logout
+            </Link>
           </div>
         </div>
       </div>
