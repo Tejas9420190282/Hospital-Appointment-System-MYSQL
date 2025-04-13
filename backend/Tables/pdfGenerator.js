@@ -22,6 +22,7 @@ const generateAppointmentPDF = async (appointmentData) => {
             
             // Patient Information
             doc.fontSize(16).text('Patient Information:', { underline: true });
+            doc.fontSize(12).text(`patientId: ${appointmentData.patient.patientId}`);
             doc.fontSize(12).text(`Name: ${appointmentData.patient.name}`);
             doc.text(`Contact: ${appointmentData.patient.contact}`);
             doc.text(`Address: ${appointmentData.patient.address}`);
@@ -29,6 +30,7 @@ const generateAppointmentPDF = async (appointmentData) => {
             
             // Doctor Information
             doc.fontSize(16).text('Doctor Information:', { underline: true });
+            doc.fontSize(12).text(`doctorId: ${appointmentData.doctor.doctorId}`);
             doc.fontSize(12).text(`Name: ${appointmentData.doctor.name}`);
             doc.text(`Contact: ${appointmentData.doctor.contact}`);
             doc.text(`Specialization: ${appointmentData.doctor.doctor_type}`);
@@ -36,13 +38,14 @@ const generateAppointmentPDF = async (appointmentData) => {
             
             // Appointment Details
             doc.fontSize(16).text('Appointment Details:', { underline: true });
+            doc.fontSize(12).text(`sloteId: ${appointmentData.slot.slotId}`);
             doc.fontSize(12).text(`Date: ${new Date(appointmentData.date).toLocaleDateString()}`);
             doc.text(`Time: ${appointmentData.slot.start_time} - ${appointmentData.slot.end_time}`);
             doc.moveDown();
             
             // Payment Details
             doc.fontSize(16).text('Payment Details:', { underline: true });
-            doc.fontSize(12).text(`Amount: ₹${appointmentData.amount/100}`);
+            doc.fontSize(12).text(`Amount: ₹ ${appointmentData.amount/100}`);
             doc.text(`Payment Status: ${appointmentData.payment_status}`);
             doc.text(`Payment ID: ${appointmentData.payment_id}`);
             
@@ -54,3 +57,5 @@ const generateAppointmentPDF = async (appointmentData) => {
 };
 
 module.exports = { generateAppointmentPDF };
+
+

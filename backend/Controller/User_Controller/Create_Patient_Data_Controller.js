@@ -54,5 +54,3 @@ exports.create_Patient_Data_Controller = create_Patient_Data_Controller;
 
 
 
-
-

@@ -1,9 +1,12 @@
+
+// doctor_View_All_Appointment_Controller.js (Node)
+
 const { mySqlPool } = require("../../config/db");
 
 const doctor_View_All_Appointment_Controller = async (req, res) => {
     try {
 
-        const { doctorId } = req.params;
+        const { doctorId } = req.query;
 
         const allAppointment = await mySqlPool.query(
             
@@ -33,3 +36,7 @@ const doctor_View_All_Appointment_Controller = async (req, res) => {
 
 exports.doctor_View_All_Appointment_Controller =
     doctor_View_All_Appointment_Controller;
+
+
+
+

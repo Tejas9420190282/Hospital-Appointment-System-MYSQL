@@ -9,7 +9,7 @@ function User_Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const nevigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
 
@@ -23,10 +23,15 @@ function User_Login() {
 
         if (responce.data.success) {
 
+            const userName = responce.data.userName;
+            
+            console.log(`userName : ${userName}`);
+            sessionStorage.setItem("userName", userName);
+
             if (responce.data.redirect) {
                           
                 alert(responce.data.message);
-                nevigate(responce.data.redirect);
+                navigate(responce.data.redirect);
             }
         }
     };

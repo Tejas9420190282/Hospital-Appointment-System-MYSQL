@@ -1,3 +1,6 @@
+
+// User_Home.jsx (React)
+
 import React from 'react'
 import heartBeatWallpaper from '../../assets/Heart-Beat-Wallpaper-3.jpg';
 import User_Navbar from '../../components/User_Component/User_Navbar';
@@ -24,3 +27,5 @@ function User_Home() {
 }
 
 export default User_Home
+
+

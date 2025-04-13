@@ -54,11 +54,15 @@ const login_User_Controler = async (req, res) => {
         );
 
         console.log("Successfully Logged in as User!".bgGreen);
+
+        const userName = user.name;
+        console.log("userName : ", userName);
         
         res.status(200).json({
             success: true,
             message: "Successfully Logged in user!",                
             token,
+            userName: user.name, 
             redirect: "/user/user-home",
         });
 
@@ -72,7 +76,8 @@ const login_User_Controler = async (req, res) => {
     }
 };
 
-exports.login_User_Controler = login_User_Controler;
+exports.login_User_Controler =  login_User_Controler;
+
 
 
 

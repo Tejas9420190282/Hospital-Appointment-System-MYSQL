@@ -109,17 +109,20 @@ const payment_Controller = async (req, res) => {
         // Generate PDF
         const pdfData = await generateAppointmentPDF({
             patient: {
+                patientId : patientId,
                 name: appointmentData.patient_name,
                 contact: appointmentData.patient_contact,
                 address: appointmentData.patient_address,
             },
             doctor: {
+                doctorId : doctorId,
                 name: appointmentData.doctor_name,
                 contact: appointmentData.doctor_contact,
                 doctor_type: appointmentData.doctor_type,
                 fees: appointmentData.fees,
             },
             slot: {
+                slotId : slotId,
                 start_time: appointmentData.start_time,
                 end_time: appointmentData.end_time,
             },
@@ -150,4 +153,6 @@ module.exports = {
     payment_Controller,
     createRazorpayOrder,
 };
+
+
 

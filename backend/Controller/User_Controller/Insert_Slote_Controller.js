@@ -62,4 +62,3 @@ const insert_Slote_Controller = async (req, res) => {
 exports.insert_Slote_Controller = insert_Slote_Controller
 
 
-

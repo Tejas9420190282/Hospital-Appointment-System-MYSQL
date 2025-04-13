@@ -18,6 +18,7 @@ import Payment from "./Pages/User-section/Payment";
 import All_Doctors_On_Home from "./components/Admin-component/Admin-Home-Components/All_Doctors_On_Home";
 import Doctor_Home from "./Pages/Doctor-Section/Doctor_Home";
 import Doctor_View_All_Appointment from "./Pages/Doctor-Section/Doctor_View_All_Appointment";
+import User_View_Scedule_Appointment from "./Pages/User-section/User_View_Scedule_Appointment";
 
 
 function App() {
@@ -139,6 +140,15 @@ function App() {
             element: (
                 <>
                     <All_Doctors_On_Home />
+                </>
+            ),
+        },
+
+        {
+            path: "/user/view-scedule-appointments",
+            element: (
+                <>
+                    <User_View_Scedule_Appointment />
                 </>
             ),
         },
