@@ -1,7 +1,6 @@
 
 // Doctor_View_All_Appointment.jsx
 
-// Doctor_View_All_Appointment.jsx
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
@@ -12,30 +11,40 @@ function Doctor_View_All_Appointment() {
     const [error, setError] = useState(null);
     const [filterDate, setFilterDate] = useState('');
 
-    const doctorId = sessionStorage.getItem("doctorId");
-
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get(
+                const doctorId = sessionStorage.getItem("doctorId"); 
+                
+                console.log(doctorId);
+                
+                if (!doctorId) {
+                    throw new Error("Doctor ID not found");
+                } 
+    
+                const response = await axios.post(
                     `${import.meta.env.VITE_BACKEND_URL}/get-doctor-all-apointment`, 
-                    { params: { doctorId } }
+                    { doctorId } 
                 );
 
+                console.log("API Response:", response.data);
+    
                 if (response.data.success) {
-                    setAppointmentData(response.data.allAppointment);
+                    // Remove [0] since backend now sends flat array
+                    setAppointmentData(response.data.allAppointment || []); 
                 } else {
                     setError("Failed to fetch appointments");
                 }
             } catch (err) {
                 setError(err.message);
+                setAppointmentData([]); // Ensure we have an array
             } finally {
                 setLoading(false);
             }
         };
-
+    
         fetchAppointments();
-    }, [doctorId]);
+    }, []); 
 
     const formatDate = (dateString) => {
         try {
@@ -86,7 +95,7 @@ function Doctor_View_All_Appointment() {
                 <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
                     <p>Error: {error}</p>
                 </div>
-            ) : filteredAppointments.length === 0 ? (
+            ) : filteredAppointments && filteredAppointments.length === 0 ? (
                 <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4">
                     <p>No appointments found</p>
                 </div>

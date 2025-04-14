@@ -1,3 +1,4 @@
+
 // admin_Doctor_Login_Controller.js
 
 const bcrypt = require("bcrypt");
@@ -73,6 +74,9 @@ const admin_Doctor_Login_Controller = async (req, res) => {
                     { expiresIn: "1h" }
                 );
 
+                console.log(`doctorId : ${doctor.id}`);
+                
+
                 return res.status(200).json({
                     success: true,
                     message: "Doctor login successful",
@@ -108,3 +112,8 @@ const admin_Doctor_Login_Controller = async (req, res) => {
 };
 
 exports.admin_Doctor_Login_Controller = admin_Doctor_Login_Controller;
+
+
+
+
+

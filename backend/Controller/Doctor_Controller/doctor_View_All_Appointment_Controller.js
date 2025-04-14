@@ -4,22 +4,22 @@
 const { mySqlPool } = require("../../config/db");
 
 const doctor_View_All_Appointment_Controller = async (req, res) => {
+    
     try {
+        const { doctorId } = req.body;
 
-        const { doctorId } = req.query;
-
-        const allAppointment = await mySqlPool.query(
-            
-            "SELECT patient.name,  patient.contact, patient.address, appointment.date, slote.start_time, slote.end_time FROM appointment JOIN patient ON appointment.patient_id = patient.id JOIN slote ON appointment.slote_id = slote.id WHERE appointment.doctor_id = ?",
+        const [appointments] = await mySqlPool.query(
+            "SELECT patient.name, patient.contact, patient.address, appointment.date, slote.start_time, slote.end_time FROM appointment JOIN patient ON appointment.patient_id = patient.id JOIN slote ON appointment.slote_id = slote.id WHERE appointment.doctor_id = ?",
             [doctorId]
         );
 
-        console.log(allAppointment);
+
+        console.log(appointments);
         
         res.status(200).json({
             success : true,
             message : "Successfully featch the data",
-            allAppointment : allAppointment
+            allAppointment : appointments
         })
 
     } catch (error) {
@@ -36,7 +36,6 @@ const doctor_View_All_Appointment_Controller = async (req, res) => {
 
 exports.doctor_View_All_Appointment_Controller =
     doctor_View_All_Appointment_Controller;
-
 
 
 

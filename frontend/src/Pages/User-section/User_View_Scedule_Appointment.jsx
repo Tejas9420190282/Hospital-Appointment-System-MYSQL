@@ -1,4 +1,3 @@
-
 // User_View_Scedule_Appointment.js (React)
 
 import React, { useState } from "react";
@@ -17,15 +16,20 @@ function User_View_Scedule_Appointment() {
         e.preventDefault();
         setLoading(true);
         setError(null);
-        
+
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/view-scedule-appointment`, {
-                params: {
-                    sloteId,
-                    doctorId,
-                    patientId,
-                }    
-            });
+            const response = await axios.get(
+                `${
+                    import.meta.env.VITE_BACKEND_URL
+                }/user/view-scedule-appointment`,
+                {
+                    params: {
+                        sloteId,
+                        doctorId,
+                        patientId,
+                    },
+                }
+            );
 
             if (response.data.success) {
                 setAppointmentData(response.data);
@@ -42,11 +46,16 @@ function User_View_Scedule_Appointment() {
     return (
         <>
             <User_Navbar />
-            
+
             <div className="min-h-screen bg-gray-100 p-8">
-                <form onSubmit={onSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-bold mb-4">View Scheduled Appointment</h2>
-                    
+                <form
+                    onSubmit={onSubmit}
+                    className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md"
+                >
+                    <h2 className="text-xl font-bold mb-4">
+                        View Scheduled Appointment
+                    </h2>
+
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -90,8 +99,8 @@ function User_View_Scedule_Appointment() {
                             />
                         </div>
 
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
                             disabled={loading}
                         >
@@ -108,18 +117,64 @@ function User_View_Scedule_Appointment() {
 
                 {appointmentData && (
                     <div className="mt-8 max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-                        <h3 className="text-lg font-semibold mb-2">Slot Details</h3>
-                        <div className="mb-4">
-                            <p><span className="font-medium">Start Time:</span> {appointmentData.slote.start_time}</p>
-                            <p><span className="font-medium">End Time:</span> {appointmentData.slote.end_time}</p>
-                            <p><span className="font-medium">Status:</span> {appointmentData.slote.status}</p>
+                        <h3 className="text-lg font-semibold mb-2">
+                            Patient Appointment's Details
+                        </h3>
+                        <div>
+                            <p>
+                                <span className="font-medium">Name:</span>{" "}
+                                {appointmentData.patient.name}
+                            </p>
+                            <p>
+                                <span className="font-medium">Contact:</span>{" "}
+                                {appointmentData.patient.contact}
+                            </p>
+                            <p>
+                                <span className="font-medium">Address:</span>{" "}
+                                {appointmentData.patient.address}
+                            </p>
                         </div>
 
-                        <h3 className="text-lg font-semibold mb-2">Patient Details</h3>
-                        <div>
-                            <p><span className="font-medium">Name:</span> {appointmentData.patient.name}</p>
-                            <p><span className="font-medium">Contact:</span> {appointmentData.patient.contact}</p>
-                            <p><span className="font-medium">Address:</span> {appointmentData.patient.address}</p>
+                        <div className="mb-4">
+                            <p>
+                                <span className="font-medium">
+                                    Doctor's Email:{" "}
+                                </span>{" "}
+                                {appointmentData.doctor.email}
+                            </p>
+                            <p>
+                                <span className="font-medium">
+                                    Doctor's name:
+                                </span>{" "}
+                                {appointmentData.doctor.name}
+                            </p>
+                            <p>
+                                <span className="font-medium">Contact:</span>{" "}
+                                {appointmentData.doctor.contact}
+                            </p>
+                            <p>
+                                <span className="font-medium">
+                                    Doctor Type:
+                                </span>{" "}
+                                {appointmentData.doctor.doctor_type}
+                            </p>
+                            <p>
+                                <span className="font-medium">Education:</span>{" "}
+                                {appointmentData.doctor.education}
+                            </p>
+                            <p>
+                                <span className="font-medium">Experience:</span>{" "}
+                                {appointmentData.doctor.experience} years
+                            </p>
+
+                            {/* Fixed date and time display */}
+                            <p>
+                                <span className="font-medium">
+                                    Date & Timing:
+                                </span>{" "}
+                                {appointmentData.appointmentDate} -{" "}
+                                {appointmentData.slotTime}
+                            </p>
                         </div>
                     </div>
                 )}
@@ -129,4 +184,3 @@ function User_View_Scedule_Appointment() {
 }
 
 export default User_View_Scedule_Appointment;
-

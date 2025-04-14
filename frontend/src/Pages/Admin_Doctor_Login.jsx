@@ -1,7 +1,6 @@
 
 // Admin_Doctor_Login.jsx (React)
 
-import { set } from "@cloudinary/url-gen/actions/variable";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,7 @@ function Admin_Doctor_Login() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    /* const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
@@ -31,7 +30,6 @@ function Admin_Doctor_Login() {
             if (responce.data.success) {
                 console.log(responce.data.redirect);
                 
-                navigate(responce.data.redirect);
 
                 if (responce.data.doctorName && responce.data.doctorIMG && responce.data.doctorID) {
                     
@@ -44,14 +42,16 @@ function Admin_Doctor_Login() {
                     setDoctorName(imgOfDoctor);
                     setDoctorId(idOfDoctor)
 
-                    console.log(doctorName, doctorIMG);
+                    console.log(doctorName, doctorIMG, );
 
                     sessionStorage.setItem("imgOfDoctor", imgOfDoctor);
 
                     sessionStorage.setItem("nameOfDoctor", nameOfDoctor);
 
                     sessionStorage.setItem("doctorId", doctorId);
+                    console.log("DoctorId : ", doctorId);
                 }
+                navigate(responce.data.redirect);
             }
 
         } catch (error) {
@@ -60,7 +60,42 @@ function Admin_Doctor_Login() {
         }
 
         console.log("Login submitted:", { email, password });
+    }; */
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                "http://localhost:1212/admin-doctor-login-submit",
+                { email, password }
+            );
+    
+            if (response.data.success) {
+                // Store values directly from response
+                const { doctorName, doctorIMG, doctorID } = response.data;
+                
+                if (doctorName && doctorIMG && doctorID) {
+                    // Update state (though you might not need these states)
+                    setDoctorIMG(doctorIMG);
+                    setDoctorName(doctorName);
+                    setDoctorId(doctorID);
+    
+                    // Store in sessionStorage immediately
+                    sessionStorage.setItem("imgOfDoctor", doctorIMG);
+                    sessionStorage.setItem("nameOfDoctor", doctorName);
+                    sessionStorage.setItem("doctorId", doctorID);
+                    
+                    console.log("Stored DoctorId:", doctorID);  // Now this will show correctly
+                }
+                
+                navigate(response.data.redirect);
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+        }
     };
+
+    
 
     return (
         <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -115,3 +150,7 @@ function Admin_Doctor_Login() {
 }
 
 export default Admin_Doctor_Login;
+
+
+
+

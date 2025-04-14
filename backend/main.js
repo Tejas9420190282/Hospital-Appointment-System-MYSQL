@@ -15,8 +15,8 @@ const { login_User_Router } = require('./router/User/Login_User_Router');
 const { create_Patient_Data_Router } = require('./router/User/Create_Patient_Data_Router');
 const { Insert_Slote_Router } = require('./router/User/Insert_Slote_Router');
 const { payment_Router } = require('./router/User/Payment_Router');
-const { doctor_View_All_Appointment_Router } = require('./router/Doctor_Router/doctor_View_All_Appointment_Router');
 const { User_View_Scedule_Appointment_Router } = require('./router/User/User_View_Scedule_Appointment_Router');
+const { doctor_View_All_Appointment_Router } = require('./router/Doctor_Router/doctor_View_All_Appointment_Router');
 
 
 
@@ -40,6 +40,10 @@ app.use(create_Patient_Data_Router);
 app.use(Insert_Slote_Router);
 app.use(payment_Router);
 app.use(User_View_Scedule_Appointment_Router);
+
+
+// Doctors
+app.use(doctor_View_All_Appointment_Router);
 
 
 const PORT = 1212;
