@@ -19,7 +19,10 @@ import All_Doctors_On_Home from "./components/Admin-component/Admin-Home-Compone
 import Doctor_Home from "./Pages/Doctor-Section/Doctor_Home";
 import Doctor_View_All_Appointment from "./Pages/Doctor-Section/Doctor_View_All_Appointment";
 import User_View_Scedule_Appointment from "./Pages/User-section/User_View_Scedule_Appointment";
-
+import User_Protected_Route from "../protected_Route/User_Protected_Route";
+import Admin_Protected_Routes from "../protected_Route/Admin_Protected_Routes";
+import Doctor_Protected_Routes from "../protected_Route/Doctor_Protected_Routes";
+import Home_All_Doctor_List from "./components/Home/Home_All_Doctor_List";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -56,7 +59,7 @@ function App() {
                     <Admin_Doctor_Login />
                 </>
             ),
-        },     
+        },
         {
             path: "/doctor/:id",
             element: (
@@ -65,34 +68,48 @@ function App() {
                 </>
             ),
         },
-
+        {
+            path: "/all-doctors",
+            element: (
+                <>
+                    <Home_All_Doctor_List />
+                </>
+            ),
+        },
+        
 
         // Admin
         {
-            path: "/admin-home",
-            element: (
-                <>
-                    <Admin_Home />
-                </>
-            ),
+            path: "/admin",
+            element: <Admin_Protected_Routes />,
+            children: [
+                {
+                    path: "admin-home",
+                    element: (
+                        <>
+                            <Admin_Home />
+                        </>
+                    ),
+                },
+                {
+                    path: "add-doctor",
+                    element: (
+                        <>
+                            <Admin_Add_Doctor_Page />
+                        </>
+                    ),
+                },
+                {
+                    path: "doctors-list",
+                    element: (
+                        <>
+                            <All_Doctors_List />
+                        </>
+                    ),
+                },
+            ],
         },
-        {
-            path: "/admin-add-doctor",
-            element: (
-                <>
-                    <Admin_Add_Doctor_Page />
-                </>
-            ),
-        },
-        {
-            path: "/doctors-list",
-            element: (
-                <>
-                    <All_Doctors_List />
-                </>
-            ),
-        },
-
+        ,
         // Users
         {
             path: "/user-login",
@@ -102,77 +119,85 @@ function App() {
                 </>
             ),
         },
-        
         {
-            path: "/user/user-home",
-            element: (
-                <>
-                    <User_Home />
-                </>
-            ),
-        },
-        {
-            path: "/user/doctor/:id/scedule-appointment",
-            element: (
-                <>
-                    <User_Scedule_Appointment />
-                </>
-            ),
-        },
-        {
-            path: "/user/doctor/:id/schedule-appointment/patientid/:patientId/booking-slote",
-            element: (
-                <>
-                    <Slote_Selection />
-                </>
-            ),
-        },
-        {
-            path: "/user/doctor/:id/schedule-appointment/patientid/:patientId/booking-slote/sloteid/:selectedSlot/payment",
-            element: (
-                <>
-                    <Payment />
-                </>
-            ),
-        },
-        {
-            path: "/user/schedule-appointment",
-            element: (
-                <>
-                    <All_Doctors_On_Home />
-                </>
-            ),
-        },
+            path: "/user",
+            element: <User_Protected_Route />,
+            children: [
+                {
+                    path: "/user/user-home",
+                    element: (
+                        <>
+                            <User_Home />
+                        </>
+                    ),
+                },
+                {
+                    path: "/user/doctor/:id/scedule-appointment",
+                    element: (
+                        <>
+                            <User_Scedule_Appointment />
+                        </>
+                    ),
+                },
+                {
+                    path: "/user/doctor/:id/schedule-appointment/patientid/:patientId/booking-slote",
+                    element: (
+                        <>
+                            <Slote_Selection />
+                        </>
+                    ),
+                },
+                {
+                    path: "/user/doctor/:id/schedule-appointment/patientid/:patientId/booking-slote/sloteid/:selectedSlot/payment",
+                    element: (
+                        <>
+                            <Payment />
+                        </>
+                    ),
+                },
+                {
+                    path: "/user/schedule-appointment",
+                    element: (
+                        <>
+                            <All_Doctors_On_Home />
+                        </>
+                    ),
+                },
 
-        {
-            path: "/user/view-scedule-appointments",
-            element: (
-                <>
-                    <User_View_Scedule_Appointment />
-                </>
-            ),
+                {
+                    path: "/user/view-scedule-appointments",
+                    element: (
+                        <>
+                            <User_View_Scedule_Appointment />
+                        </>
+                    ),
+                },
+            ],
         },
-
 
         // Doctor Pannel
-
         {
-            path: "/doctor-home",
-            element: (
-                <>
-                    <Doctor_Home />
-                </>
-            ),
+            path: "/doctor",
+            element: <Doctor_Protected_Routes />,
+            children: [
+                {
+                    path: "home",
+                    element: (
+                        <>
+                            <Doctor_Home />
+                        </>
+                    ),
+                },
+                {
+                    path: "view-all-appointments",
+                    element: (
+                        <>
+                            <Doctor_View_All_Appointment />
+                        </>
+                    ),
+                },
+            ],
         },
-        {
-            path: "/doctor/view-all-appointments",
-            element: (
-                <>
-                    <Doctor_View_All_Appointment />
-                </>
-            ),
-        },
-
     ]);
 
     return (
@@ -183,4 +208,8 @@ function App() {
 }
 
 export default App;
+
+
+
+
 

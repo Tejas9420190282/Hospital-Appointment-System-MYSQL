@@ -15,53 +15,6 @@ function Admin_Doctor_Login() {
 
     const navigate = useNavigate();
 
-    /* const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const responce = await axios.post(
-                "http://localhost:1212/admin-doctor-login-submit",
-                {
-                    email,
-                    password,
-                }
-            );
-
-            if (responce.data.success) {
-                console.log(responce.data.redirect);
-                
-
-                if (responce.data.doctorName && responce.data.doctorIMG && responce.data.doctorID) {
-                    
-                    const nameOfDoctor = responce.data.doctorName;
-                    const imgOfDoctor = responce.data.doctorIMG;
-
-                    const idOfDoctor = responce.data.idOfDoctor;
-
-                    setDoctorIMG(imgOfDoctor);
-                    setDoctorName(imgOfDoctor);
-                    setDoctorId(idOfDoctor)
-
-                    console.log(doctorName, doctorIMG, );
-
-                    sessionStorage.setItem("imgOfDoctor", imgOfDoctor);
-
-                    sessionStorage.setItem("nameOfDoctor", nameOfDoctor);
-
-                    sessionStorage.setItem("doctorId", doctorId);
-                    console.log("DoctorId : ", doctorId);
-                }
-                navigate(responce.data.redirect);
-            }
-
-        } catch (error) {
-
-            console.log(`${error.message}`);
-        }
-
-        console.log("Login submitted:", { email, password });
-    }; */
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -87,6 +40,9 @@ function Admin_Doctor_Login() {
                     
                     console.log("Stored DoctorId:", doctorID);  // Now this will show correctly
                 }
+
+                sessionStorage.setItem("token", response.data.token);
+                sessionStorage.setItem("role", response.data.role);
                 
                 navigate(response.data.redirect);
             }

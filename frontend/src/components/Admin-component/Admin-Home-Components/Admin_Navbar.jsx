@@ -6,7 +6,15 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/Admin/logo.svg";
 
 function Admin_Navbar() {
+  
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("token");
+    navigate("/");
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between p-4 bg-white shadow-md md:pl-64">
@@ -22,7 +30,7 @@ function Admin_Navbar() {
 
       {/* Logout Button */}
       <button
-        onClick={() => navigate("/")}
+        onClick={handleLogout}
         className="bg-blue-600 hover:bg-blue-700 text-white font-medium sm:font-nano py-2 px-4 rounded-full transition-all shadow hover:shadow-lg"
       >
         Logout

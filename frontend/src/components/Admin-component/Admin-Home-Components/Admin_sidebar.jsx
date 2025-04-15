@@ -13,10 +13,10 @@ function Admin_sidebar() {
   const location = useLocation();
 
   const menuItems = [
-    { icon: dashboard, label: "Dashboard", path: "/admin-home" },
+    { icon: dashboard, label: "Dashboard", path: "/admin/admin-home" },
     { icon: appointment, label: "Appointments", path: "/show-all-appointments" },
-    { icon: add_doctor, label: "Add Doctor", path: "/admin-add-doctor" },
-    { icon: doctor_list, label: "Doctors List", path: "/doctors-list" }
+    { icon: add_doctor, label: "Add Doctor", path: "/admin/add-doctor" },
+    { icon: doctor_list, label: "Doctors List", path: "/admin/doctors-list" }
   ];
 
   // Toggle for mobile menu button

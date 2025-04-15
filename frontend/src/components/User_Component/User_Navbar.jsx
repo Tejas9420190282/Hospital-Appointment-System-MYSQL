@@ -1,17 +1,27 @@
 // User_Navbar.jsx
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function User_Navbar() {
+    
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [userName, setUserName] = useState(null);
 
+    const nevigate = useNavigate();
+
+    const handleLogout = () => {
+
+        sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userId");
+        nevigate("/");
+    }
+
     useEffect(() => {
+        
         const name = sessionStorage.getItem("userName");
         setUserName(name);
         console.log(userName);
-        
     }, []);
 
     return (
@@ -87,7 +97,7 @@ function User_Navbar() {
                             View Scheduled Appointments
                         </Link>
                         <Link
-                            to="/"
+                            onClick={handleLogout}
                             className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-xl font-medium transition-colors"
                         >
                             Logout
