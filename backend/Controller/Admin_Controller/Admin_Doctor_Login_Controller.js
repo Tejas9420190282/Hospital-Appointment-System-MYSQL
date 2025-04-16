@@ -42,7 +42,7 @@ const admin_Doctor_Login_Controller = async (req, res) => {
                     success: true,
                     message: "Admin login successful",
                     token,
-                    redirect: "/admin/home",
+                    redirect: "/admin/admin-home",
                     user: admin,
                     role: 'admin'
                 });
@@ -111,6 +111,10 @@ const admin_Doctor_Login_Controller = async (req, res) => {
 };
 
 exports.admin_Doctor_Login_Controller = admin_Doctor_Login_Controller;
+
+
+
+
 
 
 

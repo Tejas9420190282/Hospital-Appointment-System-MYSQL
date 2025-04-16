@@ -23,6 +23,7 @@ import User_Protected_Route from "../protected_Route/User_Protected_Route";
 import Admin_Protected_Routes from "../protected_Route/Admin_Protected_Routes";
 import Doctor_Protected_Routes from "../protected_Route/Doctor_Protected_Routes";
 import Home_All_Doctor_List from "./components/Home/Home_All_Doctor_List";
+import Create_User_Page from "./Pages/User-section/Create_User_Page";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -73,6 +74,14 @@ function App() {
             element: (
                 <>
                     <Home_All_Doctor_List />
+                </>
+            ),
+        },
+        {
+            path: "/user-create-account",
+            element: (
+                <>
+                    <Create_User_Page />
                 </>
             ),
         },
@@ -208,6 +217,11 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
 
 
 

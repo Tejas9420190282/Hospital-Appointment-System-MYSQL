@@ -1,4 +1,6 @@
+
 // Payment.jsx (React)
+
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +12,14 @@ function Payment() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [message, setMessage] = useState("");
 
+    const doctorName = sessionStorage.getItem("nameOfDoctor");
+
+    console.log(doctorName);
+
     const nevigate = useNavigate();
+
+    
+    
 
     useEffect(() => {
         const fees = sessionStorage.getItem("fees");
@@ -102,7 +111,7 @@ function Payment() {
                 key: "rzp_test_6Pg8m8ifI60Xmi",
                 amount: orderResponse.data.order.amount,
                 currency: "INR",
-                name: "Your Clinic Name",
+                name: `Dr. ${doctorName}`,
                 description: "Appointment Booking",
                 order_id: orderResponse.data.order.id,
                 handler: handlePaymentSuccess, // Updated handler
