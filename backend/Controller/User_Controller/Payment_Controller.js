@@ -1,6 +1,7 @@
 
 // payment_Controller.js (Node)
 
+
 require("dotenv").config();
 const { mySqlPool } = require("../../config/db");
 const Razorpay = require("razorpay");
@@ -56,7 +57,7 @@ const payment_Controller = async (req, res) => {
             slotId,
             date,
             amount,
-        } = req.body;
+        } = req.body; 
 
         // Verify payment signature
         const expectedSignature = crypto
@@ -79,8 +80,7 @@ const payment_Controller = async (req, res) => {
 
         // Get all appointment details with joins
         const [appointmentDetails] = await mySqlPool.query(
-            `
-            SELECT 
+            `SELECT 
                 a.id AS appointment_id,
                 a.date,
                 p.name AS patient_name,
@@ -160,6 +160,8 @@ module.exports = {
     payment_Controller,
     createRazorpayOrder,
 };
+ 
+
 
 
 

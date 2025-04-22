@@ -4,6 +4,66 @@
 const { mySqlPool } = require("../../config/db");
 
 const doctor_Notification_Controller = async (req, res) => {
+    const doctorId = req.query.doctorId || req.body.doctorId;
+
+    try {
+        // Validate doctorId
+        if (!doctorId || isNaN(doctorId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Valid doctor ID is required"
+            });
+        }
+
+        // Verify doctor exists
+        const [doctor] = await mySqlPool.query(
+            "SELECT id FROM doctor WHERE id = ?", 
+            [doctorId]
+        );
+
+        if (!doctor.length) {
+            return res.status(404).json({
+                success: false,
+                message: "Doctor not found in database"
+            });
+        }
+
+        // 1. Fetch UNREAD notifications
+        const [notifications] = await mySqlPool.query(
+            `SELECT * FROM notification 
+             WHERE doctor_id = ? AND is_read = FALSE
+             ORDER BY created_at DESC`,
+            [doctorId]
+        );
+
+        // 2. If there are unread notifications, mark them as read
+        if (notifications.length > 0) {
+            const notificationIds = notifications.map(n => n.id);
+            await mySqlPool.query(
+                `UPDATE notification 
+                 SET is_read = TRUE 
+                 WHERE id IN (?)`,
+                [notificationIds]
+            );
+        }
+
+        // 3. Return only the newly fetched notifications (now marked as read)
+        res.status(200).json({
+            success: true,
+            notifications,
+        });
+
+    } catch (error) {
+        console.error("Notification error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
+    }
+};
+
+/* 
+const doctor_Notification_Controller = async (req, res) => {
     // Get doctorId from either query params (GET) or body (POST)
     const doctorId = req.query.doctorId || req.body.doctorId;
 
@@ -60,57 +120,11 @@ const doctor_Notification_Controller = async (req, res) => {
         });
     }
 };
-
+*/
 exports.doctor_Notification_Controller = doctor_Notification_Controller;
+ 
 
 
 
 
 
-/* 
-const { mySqlPool } = require("../../config/db");
-
-
-const doctor_Notification_Controller = async (req, res) => {
-    
-    const doctorId = req.query.doctorId || req.body.doctorId;
-
-    try {
-        if (!doctorId) {
-            console.log("doctorid is not found.....");
-
-            return res.status(400).json({
-                success: false,
-                message: "doctorid is not found.....",
-            });
-        }
-
-        console.log("DoctorId : ", req.query);
-
-        const [notifications] = await mySqlPool.query(
-            `SELECT * FROM notification 
-             WHERE doctor_id = ? 
-             ORDER BY created_at DESC`,
-            [doctorId]
-        );      
-
-        res.status(200).json({
-            success: true,
-            message: "notification send Successfuly....",
-            notification : notifications,
-        });
-    
-    } catch (error) {
-        console.log(
-            `Error in doctor_Notification_Controller API : ${error.message}`
-        );
-
-        res.status(500).json({
-            success: false,
-            message: `Error in doctor_Notification_Controller API : ${error.message}`,
-        });
-    }
-};
-
-exports.doctor_Notification_Controller = doctor_Notification_Controller;
- */
