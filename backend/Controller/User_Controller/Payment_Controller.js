@@ -1,3 +1,4 @@
+
 // payment_Controller.js (Node)
 
 require("dotenv").config();
@@ -105,6 +106,12 @@ const payment_Controller = async (req, res) => {
         }
 
         const appointmentData = appointmentDetails[0];
+
+        const notificationMessage = `📅 New Appointment Booked! Date : ${new Date(appointmentData.date).toLocaleDateString()}, Time: ${appointmentData.start_time}}`
+
+        await mySqlPool.query(`INSERT INTO notification (doctor_id, message) 
+             VALUES (?, ?)`,
+        [doctorId, notificationMessage])
 
         // Generate PDF
         const pdfData = await generateAppointmentPDF({

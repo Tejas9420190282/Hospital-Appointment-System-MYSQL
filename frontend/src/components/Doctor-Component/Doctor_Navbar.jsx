@@ -1,10 +1,10 @@
 
 // Doctor_Navbar.jsx(React)
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { TiThMenu } from "react-icons/ti";
 import { IoMdClose } from "react-icons/io";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 function Doctor_Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,10 +12,12 @@ function Doctor_Navbar() {
 
     const handleLogout = () => {
         // Clear doctor authentication data
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        navigate('/');
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        navigate("/");
     };
+
+    const doctorId = sessionStorage.getItem("doctorId")
 
     return (
         <nav className="bg-gray-300 shadow-lg">
@@ -23,20 +25,29 @@ function Doctor_Navbar() {
                 <div className="flex justify-between items-center h-20">
                     {/* Logo/Brand */}
                     <div className="flex-shrink-0">
-                        <Link to="/doctor-home" className="text-xl font-bold text-blue-600">
+                        <Link
+                            to="/doctor-home"
+                            className="text-xl font-bold text-blue-600"
+                        >
                             Doctor Portal
                         </Link>
                     </div>
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex space-x-8">
-                        <Link 
-                            to="/doctor/view-all-appointments" 
+                        <Link
+                            to={`/doctor/notification/${doctorId}`}
+                            className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-xl font-medium"
+                        >
+                            New appointment Notification
+                        </Link>
+                        <Link
+                            to="/doctor/view-all-appointments"
                             className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-xl font-medium"
                         >
                             View All Appointments
                         </Link>
-                        
+
                         <button
                             onClick={handleLogout}
                             className="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-xl font-medium"

@@ -37,6 +37,7 @@ function Admin_Doctor_Login() {
                     sessionStorage.setItem("imgOfDoctor", doctorIMG);
                     sessionStorage.setItem("nameOfDoctor", doctorName);
                     sessionStorage.setItem("doctorId", doctorID);
+                    console.log("Doctor id set Successfull....", doctorID);
                     
                     console.log("Stored DoctorId:", doctorID);  // Now this will show correctly
                 }

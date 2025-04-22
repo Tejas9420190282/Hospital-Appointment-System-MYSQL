@@ -6,12 +6,18 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 function Doctor_Detail_Page() {
+    
     const { id } = useParams();
     const [doctor, setDoctor] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    
+
     const nevigate = useNavigate();
+
+    console.log("DoctorId : ", id);
+    
 
     useEffect(() => {
         const fetchDoctor = async () => {
@@ -50,7 +56,7 @@ function Doctor_Detail_Page() {
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                     Error: {error}
                 </div>
-                <Link to="/doctor-home" className="mt-4 text-blue-600 hover:underline">
+                <Link to="/doctor/home" className="mt-4 text-blue-600 hover:underline">
                     Back to Home
                 </Link>
             </div>
@@ -68,6 +74,12 @@ function Doctor_Detail_Page() {
                 </Link>
             </div>
         );
+    }
+
+    const handleSubmit = () => {
+
+        sessionStorage.setItem("nameOfDoctor", doctor.name);
+        nevigate(`/user/doctor/${id}/scedule-appointment`)
     }
 
     return (
@@ -166,7 +178,7 @@ function Doctor_Detail_Page() {
                             </div>
                             
                             <div className="mt-8">
-                                <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full md:w-auto" onClick={() => nevigate(`/user/doctor/${id}/scedule-appointment`)}>
+                                <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full md:w-auto" onClick={handleSubmit}>
                                     Book Appointment
                                 </button>
                             </div>

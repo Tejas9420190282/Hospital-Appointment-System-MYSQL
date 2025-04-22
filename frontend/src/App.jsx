@@ -1,3 +1,4 @@
+
 // App.jsx (React)
 
 import { useState } from "react";
@@ -24,6 +25,7 @@ import Admin_Protected_Routes from "../protected_Route/Admin_Protected_Routes";
 import Doctor_Protected_Routes from "../protected_Route/Doctor_Protected_Routes";
 import Home_All_Doctor_List from "./components/Home/Home_All_Doctor_List";
 import Create_User_Page from "./Pages/User-section/Create_User_Page";
+import Notification from "./components/Doctor-Component/Notification";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -202,6 +204,14 @@ function App() {
                     element: (
                         <>
                             <Doctor_View_All_Appointment />
+                        </>
+                    ),
+                },
+                {
+                    path: "notification/:doctorId",
+                    element: (
+                        <>
+                            <Notification />
                         </>
                     ),
                 },

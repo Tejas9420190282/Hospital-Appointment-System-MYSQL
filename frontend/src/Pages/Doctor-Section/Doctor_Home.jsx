@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 function Doctor_Home() {
     const doctorIMG = sessionStorage.getItem("imgOfDoctor");
     const doctorName = sessionStorage.getItem("nameOfDoctor");
+    const doctorId = sessionStorage.getItem("doctorId")
 
     return (
         <>

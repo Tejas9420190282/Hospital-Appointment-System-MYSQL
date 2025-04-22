@@ -11,3 +11,7 @@ const insert_Appointment_Controller = async (req, res) => {
 }
 
 exports.insert_Appointment_Controller = insert_Appointment_Controller
+
+
+
+

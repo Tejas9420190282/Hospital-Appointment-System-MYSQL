@@ -12,15 +12,12 @@ function Payment() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [message, setMessage] = useState("");
 
+    
     const doctorName = sessionStorage.getItem("nameOfDoctor");
-
-    console.log(doctorName);
 
     const nevigate = useNavigate();
 
     
-    
-
     useEffect(() => {
         const fees = sessionStorage.getItem("fees");
         if (fees) setDoctorFees(fees);
