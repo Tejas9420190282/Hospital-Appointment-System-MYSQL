@@ -7,11 +7,19 @@ const { mySqlPool } = require("../../config/db");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const { generateAppointmentPDF } = require("../../Tables/pdfGenerator");
+require('dotenv').config();
+
 
 const razorpay = new Razorpay({
-    key_id:"rzp_test_6Pg8m8ifI60Xmi",
-    key_secret:"9cLSFrLUCm0hJnwfbs0szhRK",
+    // key_id:"rzp_test_6Pg8m8ifI60Xmi",
+    // key_secret:"9cLSFrLUCm0hJnwfbs0szhRK",
+
+   key_id:process.env.key_id,
+   key_secret:process.env.key_secret
 });
+
+console.log("Razorpay Key ID:", process.env.key_id);
+console.log("Razorpay Key Secret:", process.env.key_secret);
 
 // Create Razorpay order
 const createRazorpayOrder = async (req, res) => {

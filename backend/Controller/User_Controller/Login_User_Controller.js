@@ -4,9 +4,10 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { mySqlPool } = require("../../config/db");
+require('dotenv').config();
 
 const login_User_Controler = async (req, res) => {
-    const SECRET_KEY = "secret-key";
+    const SECRET_KEY = process.env.SECRET_KEY;
 
     try {
         const { email, password } = req.body;

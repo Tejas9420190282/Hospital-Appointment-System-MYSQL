@@ -14,7 +14,7 @@ function Admin_sidebar() {
 
   const menuItems = [
     { icon: dashboard, label: "Dashboard", path: "/admin/admin-home" },
-    { icon: appointment, label: "Appointments", path: "/show-all-appointments" },
+    { icon: appointment, label: "Appointments", path: "/admin/doctors-all-appointments" },
     { icon: add_doctor, label: "Add Doctor", path: "/admin/add-doctor" },
     { icon: doctor_list, label: "Doctors List", path: "/admin/doctors-list" }
   ];

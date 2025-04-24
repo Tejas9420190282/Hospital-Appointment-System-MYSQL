@@ -3,6 +3,8 @@
 const express = require("express");
 const colors = require("colors");
 const { mySqlPool } = require("./config/db");
+require('dotenv').config();
+
 
 const cors = require("cors");
 const {
@@ -31,6 +33,7 @@ const {
     doctor_View_All_Appointment_Router,
 } = require("./router/Doctor_Router/doctor_View_All_Appointment_Router");
 const doctor_Notification_Router = require("./router/Doctor_Router/doctor_Notification_Router");
+const { show_All_Doctors_Appointment_To_Admin_Router } = require("./router/Admin_Router/Show_All_Doctors_Appointment_To_Admin_Router");
 
 const app = express();
 
@@ -62,6 +65,8 @@ app.use(User_View_Scedule_Appointment_Router);
 // Doctors
 app.use(doctor_View_All_Appointment_Router);
 app.use(doctor_Notification_Router);
+app.use(show_All_Doctors_Appointment_To_Admin_Router);
+
 
 const PORT = 1212;
 mySqlPool

@@ -26,6 +26,7 @@ import Doctor_Protected_Routes from "../protected_Route/Doctor_Protected_Routes"
 import Home_All_Doctor_List from "./components/Home/Home_All_Doctor_List";
 import Create_User_Page from "./Pages/User-section/Create_User_Page";
 import Notification from "./components/Doctor-Component/Notification";
+import Show_Doctors_All_Appointment from "./Pages/Admin-section/show_Doctors_All_Appointment";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -118,6 +119,14 @@ function App() {
                         </>
                     ),
                 },
+                 {
+                    path: "doctors-all-appointments",
+                    element: (
+                        <>
+                            <Show_Doctors_All_Appointment />
+                        </>
+                    ),
+                }, 
             ],
         },
         ,
